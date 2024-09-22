@@ -27,4 +27,11 @@ describe('Article', () => {
       )
     ).toBeInTheDocument()
   })
+  // New test case for explicit summary={false}
+  it('renders a full blog post when summary is explicitly set to false', () => {
+    render(<Article article={ARTICLE} summary={false} />)
+
+    expect(screen.getByText(ARTICLE.title)).toBeInTheDocument()
+    expect(screen.getByText(ARTICLE.body)).toBeInTheDocument()
+  })
 })
