@@ -1,12 +1,15 @@
 import Article from 'src/components/Article'
 
 export const QUERY = gql`
-  query BlogPostsQuery {
+  query ArticlesQuery {
     articles: posts {
       id
       title
       body
       createdAt
+      user {
+        name
+      }
     }
   }
 `
@@ -18,6 +21,7 @@ export const Empty = () => <div>Empty</div>
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({ articles }) => {
+  console.log('Fetched data:', articles) // Log the fetched data
   return (
     <div className="space-y-10">
       {articles.map((article) => (
