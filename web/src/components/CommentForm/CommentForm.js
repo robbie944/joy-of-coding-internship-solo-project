@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+
 import {
   Form,
   FormError,
@@ -28,7 +29,7 @@ const CommentForm = ({ postId }) => {
   const [createComment, { loading, error }] = useMutation(CREATE, {
     onCompleted: () => {
       setHasPosted(true)
-      toast.success('Than you for your comment!')
+      toast.success('Thank you for your comment!')
     },
 
     refetchQueries: [{ query: CommentsQuery, variables: { postId } }],

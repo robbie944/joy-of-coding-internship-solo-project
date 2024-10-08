@@ -1,4 +1,3 @@
-
 import { render, screen, waitFor } from '@redwoodjs/testing'
 
 import { standard } from 'src/components/CommentsCell/CommentsCell.mock'
@@ -19,7 +18,6 @@ describe('Article', () => {
     expect(screen.getByText(ARTICLE.title)).toBeInTheDocument()
     expect(screen.getByText(ARTICLE.body)).toBeInTheDocument()
   })
-
 
   it('renders comments when displaying a full blog post', async () => {
     const comment = standard().comments[0]
@@ -49,8 +47,6 @@ describe('Article', () => {
       expect(screen.getByText(comment.body)).toBeInTheDocument()
     )
   })
-
-
 
   // New test case for explicit summary={false}
   it('renders a full blog post when summary is explicitly set to false', () => {

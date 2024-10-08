@@ -45,22 +45,30 @@ describe('comments', () => {
   })
 
   scenario('returns a single comment', async (scenario) => {
-    const result = await comment({ id: scenario.comment.one.id })
+    const result = await comment({ id: scenario.comment.jane.id })
 
-    expect(result).toEqual(scenario.comment.one)
+    expect(result).toEqual(scenario.comment.jane)
   })
 
-  scenario('creates a comment', async () => {
-    const result = await createComment({
-      input: { name: 'String', body: 'String' },
+  scenario('postOnly', 'creates a new comment', async (scenario) => {
+    const comment = await createComment({
+      input: {
+        name: 'Billy Bob',
+        body: 'What is your favorite tree bark?',
+        post: {
+          connect: { id: scenario.post.bark.id },
+        },
+      },
     })
 
-    expect(result.name).toEqual('String')
-    expect(result.body).toEqual('String')
+    expect(comment.name).toEqual('Billy Bob')
+    expect(comment.body).toEqual('What is your favorite tree bark?')
+    expect(comment.postId).toEqual(scenario.post.bark.id)
+    expect(comment.createdAt).not.toEqual(null)
   })
 
   scenario('updates a comment', async (scenario) => {
-    const original = await comment({ id: scenario.comment.one.id })
+    const original = await comment({ id: scenario.comment.jane.id })
     const result = await updateComment({
       id: original.id,
       input: { name: 'String2' },
@@ -71,7 +79,7 @@ describe('comments', () => {
 
   scenario('deletes a comment', async (scenario) => {
     const original = await deleteComment({
-      id: scenario.comment.one.id,
+      id: scenario.comment.jane.id,
     })
     const result = await comment({ id: original.id })
 
