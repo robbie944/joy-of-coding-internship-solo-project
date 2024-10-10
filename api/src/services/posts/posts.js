@@ -28,3 +28,7 @@ export const deletePost = ({ id }) => {
     where: { id },
   })
 }
+export const Post = {
+  user: (_obj, { root }) =>
+    db.post.findFirst({ where: { id: root.id } }).user(),
+}
