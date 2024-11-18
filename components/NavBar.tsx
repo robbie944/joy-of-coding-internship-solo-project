@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { FaCarOn } from 'react-icons/fa6';
+
 
 const NavBar = () => {
   return (
@@ -9,8 +9,8 @@ const NavBar = () => {
         {/* Logo */}
         <Link href="/" legacyBehavior>
           <a className="flex items-center text-xl font-bold hover:text-blue-500 mr-6">
-            <FaCarOn className="mr-2" />
-            <span>Robin's Tracker</span>
+            
+            <span>Home</span>
           </a>
         </Link>
         {/* Mileage Link */}
