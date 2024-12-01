@@ -41,3 +41,48 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* Root Variables */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #1d4ed8;
+  --secondary: #9333ea;
+  --border-radius: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --primary: #3b82f6;
+    --secondary: #c084fc;
+  }
+}
+
+/* Base Styling */
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Utility Classes */
+@layer utilities {
+  .bg-background {
+    background-color: var(--background);
+  }
+  .text-foreground {
+    color: var(--foreground);
+  }
+  .rounded-custom {
+    border-radius: var(--border-radius);
+  }
+}
