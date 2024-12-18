@@ -15,6 +15,8 @@ type MileageRecord = {
 
 export default function MileageDashboard() {
   const [mileageData, setMileageData] = useState<MileageRecord[]>([]);
+  const [filteredData, setFilteredData] = useState<MileageRecord[]>([]);
+
 
   // Fetch mileage data from the API
   const fetchMileageData = async () => {
@@ -22,7 +24,8 @@ export default function MileageDashboard() {
       const response = await fetch("/api/getMileageData");
       const data = await response.json();
       console.log("Fetched Mileage Data:", data);
-      setMileageData(data);
+      setMileageData(data); // Save all data
+      setFilteredData(data); // Show all data initially
     } catch (error) {
       console.error("Error fetching mileage data:", error);
     }
@@ -52,7 +55,29 @@ export default function MileageDashboard() {
   useEffect(() => {
     fetchMileageData();
   }, []);
+  const handleSearch = (query: string) => {
+    const lowerQuery = query.toLowerCase(); // Convert query to lowercase for case-insensitive matching
+  
+    const filtered = mileageData.filter((record) => {
+      const recordDate = new Date(record.date); // Convert the date string to a Date object
+      const month = recordDate.toLocaleString("default", { month: "long" }).toLowerCase(); // e.g., "november"
+      const year = recordDate.getFullYear().toString(); // e.g., "2024"
+  
+      // Return true if the query matches the month or year
+      return month.includes(lowerQuery) || year.includes(lowerQuery);
+    });
+  
+    setFilteredData(filtered); // Update filteredData with matching records
+  };
 
+   // Function to calculate total mileage
+   const calculateTotalMiles = (data: MileageRecord[]) => {
+    return data.reduce((sum, record) => sum + record.total_miles, 0); // Start sum at 0
+  };
+
+  const totalMiles = calculateTotalMiles(mileageData); // Total for all data
+  const filteredMiles = calculateTotalMiles(filteredData); // Total for filtered data
+  
   return (
     <div className="min-h-screen bg-gray-200 p-8">
       {/* Header Section */}
@@ -65,6 +90,21 @@ export default function MileageDashboard() {
           Add Mileage
         </Link>
       </div>
+      <div className="mb-4">
+  <p className="text-lg font-bold">Total Mileage: {totalMiles} miles</p>
+  <p className="text-lg font-bold">
+    Filtered Mileage: {filteredMiles} miles
+  </p>
+</div>
+
+      <div className="mb-4">
+  <input
+    type="text"
+    placeholder="Search by month or year (e.g., November or 2024)"
+    className="w-full px-4 py-2 border rounded"
+    onChange={(e) => handleSearch(e.target.value)}
+  />
+</div>
 
       {/* Table Section */}
       <table className="table-auto w-full bg-white rounded shadow-md">
@@ -79,7 +119,7 @@ export default function MileageDashboard() {
           </tr>
         </thead>
         <tbody>
-          {mileageData.map((record) => (
+          {filteredData.map((record) => (
             <tr key={record.id} className="border-t">
               <td className="px-4 py-2">{record.date}</td>
               <td className="px-4 py-2">{record.beginning_location}</td>
